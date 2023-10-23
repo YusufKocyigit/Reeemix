@@ -16,8 +16,8 @@ if /i "!customize_vars!"=="Y" (
     call :custom_variables
 ) else (
     rem Use hardcoded variables if user chooses not to customize
-    set "input_folder=input"
-    set "output_folder=output"
+    set "input_folder=reeemix_input"
+    set "output_folder=reeemix_output"
     set "output_suffix=_reeemixed"
 )
 
@@ -55,7 +55,7 @@ set /p output_folder=Enter the output folder name/path (leave empty to use the d
 set /p output_suffix=Enter the output file suffix (leave blank for none): 
 
 rem Check if input and output folder are empty, and if so, use the defaults
-if not defined input_folder set "input_folder=input"
-if not defined output_folder set "output_folder=output"
+if not defined input_folder set "input_folder=reeemix_input"
+if not defined output_folder set "output_folder=reeemix_output"
 
 goto main
