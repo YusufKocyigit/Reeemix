@@ -8,7 +8,7 @@ echo Reeemix - Optimize Video Files for the Web
 echo.
 echo.
 
-set /p customize_vars=Do you want to customize the input/output folder's name and the output file's suffix (Y/N)? 
+set /p customize_vars=Do you want to customize the input/output folder's name and the output file's suffix (Y/N)?  
 echo.
 echo.
 
@@ -16,9 +16,9 @@ if /i "!customize_vars!"=="Y" (
     echo.
     echo Setting custom variables
     echo.
-    set /p input_folder="Enter the input folder name/path (leave empty to use the default folder reeemix_input):" 
-    set /p output_folder="Enter the output folder name/path (leave empty to use the default folder reeemix_output):" 
-    set /p output_suffix="Enter the output file suffix (leave blank for none):" 
+    set /p input_folder="Enter the input folder name/path (leave empty to use the default folder reeemix_input): " 
+    set /p output_folder="Enter the output folder name/path (leave empty to use the default folder reeemix_output): " 
+    set /p output_suffix="Enter the output file suffix (leave blank for none): " 
     echo.
     rem Check if input and output folder are empty, and if so, use the defaults
     if not defined input_folder ( 
@@ -29,7 +29,7 @@ if /i "!customize_vars!"=="Y" (
     if not exist "!input_folder!" (
             mkdir "!input_folder!"
             echo Creating the default input folder, as it doesn't exist
-            echo Put your files inside the !input_folder! folder and click on enter
+            echo Put your files inside the "!input_folder!" folder and click on enter
             echo.
             pause
     )
@@ -77,6 +77,10 @@ if /i "!customize_vars!"=="Y" (
 )
 
 :main
+echo.
+set /p delete_afterreeemix=Do you want to delete input files after they are Reeemixed ? (Y/N)?
+echo.
+
 for %%i in ("!input_folder!\*.*") do (
     set "input=%%i"
     set "filename=%%~ni"
@@ -84,6 +88,21 @@ for %%i in ("!input_folder!\*.*") do (
 
     rem Run the ffmpeg command
     ffmpeg -i "!input!" -map 0 -c copy -movflags +faststart "!output_folder!\!filename!!output_suffix!!extension!"
+
+    if /i "!delete_afterreeemix!"=="Y" (
+        del !input!
+        echo.
+        echo reeemixed "!input!" to "!output_folder!\!filename!!output_suffix!!extension!" successfully ! 
+        echo.
+        del "!input!"
+        echo deleted "!input!"
+        echo.
+    ) else (
+        echo.
+        echo reeemixed "!input!" to "!output_folder!\!filename!!output_suffix!!extension!" successfully ! 
+        echo.
+    ) 
+
 )
 
 echo.
