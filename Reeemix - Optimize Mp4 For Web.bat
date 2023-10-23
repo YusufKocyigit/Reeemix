@@ -13,12 +13,67 @@ echo.
 echo.
 
 if /i "!customize_vars!"=="Y" (
-    call :custom_variables
+    echo.
+    echo Setting custom variables
+    echo.
+    set /p input_folder="Enter the input folder name/path (leave empty to use the default folder reeemix_input):" 
+    set /p output_folder="Enter the output folder name/path (leave empty to use the default folder reeemix_output):" 
+    set /p output_suffix="Enter the output file suffix (leave blank for none):" 
+    echo.
+    rem Check if input and output folder are empty, and if so, use the defaults
+    if not defined input_folder ( 
+        echo Using the default input folder
+        set "input_folder=reeemix_input"
+        echo.
+    )
+    if not exist "!input_folder!" (
+            mkdir "!input_folder!"
+            echo Creating the default input folder, as it doesn't exist
+            echo Put your files inside the !input_folder! folder and click on enter
+            echo.
+            pause
+    )
+
+    if not defined output_folder (
+        set "output_folder=reeemix_output"
+    	echo Using the default output folder
+        echo.
+    )
+
+    if not exist "!output_folder!" (
+        mkdir "!output_folder!"
+        echo Creating the default output folder, as it doesn't exist
+        echo.
+    )
+    
+    goto main  
 ) else (
+    echo.
     rem Use hardcoded variables if user chooses not to customize
+    echo Using hardcoded variables
+    echo.
     set "input_folder=reeemix_input"
     set "output_folder=reeemix_output"
     set "output_suffix=_reeemixed"
+
+    rem Create the input folder if it doesn't exist
+    
+    if not exist "!input_folder!" (
+        mkdir "!input_folder!"
+        echo Creating the default input folder, as it doesn't exist
+        echo Put your files inside the !input_folder! folder and click on enter
+        echo.
+        pause
+    )
+
+    
+    if not exist "!output_folder!" (
+        mkdir "!output_folder!"
+        echo Creating the default output folder, it doesn't exist
+        echo.
+    )
+
+    goto main    
 )
 
 :main
@@ -27,9 +82,6 @@ for %%i in ("!input_folder!\*.*") do (
     set "filename=%%~ni"
     set "extension=%%~xi"
 
-    rem Create the output folder if it doesn't exist
-    if not exist "!output_folder!" mkdir "!output_folder!"
-    
     rem Run the ffmpeg command
     ffmpeg -i "!input!" -map 0 -c copy -movflags +faststart "!output_folder!\!filename!!output_suffix!!extension!"
 )
@@ -48,23 +100,3 @@ pause
 
 endlocal
 exit
-
-:custom_variables
-set /p input_folder=Enter the input folder name/path (leave empty to use the default folder "reeemix_input"): 
-set /p output_folder=Enter the output folder name/path (leave empty to use the default folder "reeemix_output"): 
-set /p output_suffix=Enter the output file suffix (leave blank for none): 
-
-rem Check if input and output folder are empty, and if so, use the defaults
-if not defined input_folder set "input_folder=reeemix_input"
-if not defined output_folder set "output_folder=reeemix_output"
-
-rem Check if the user-defined input folder exists, and if not, ask the user to create it
-if not exist "!input_folder!" (
-    echo.
-    echo The input folder "!input_folder!" does not exist. Please create it and place your video files there.
-    echo.
-    pause
-    exit /b
-)
-
-goto main
