@@ -4,18 +4,18 @@ setlocal enabledelayedexpansion
 rem Display software name
 echo.
 echo.
-echo Reeemix - Optimize Video Files for the +Web
+echo Reeemix - Optimize Video Files for the Web
 echo.
 echo.
 
-set /p customize_vars=Do you want to customize the input/output folders and output file's suffix (Y/N)? 
+set /p customize_vars=Do you want to customize the input/output folder's name and the output file's suffix (Y/N)? 
 echo.
 echo.
 
 if /i "!customize_vars!"=="Y" (
     call :custom_variables
 ) else (
-    rem Use hardcoded variables
+    rem Use hardcoded variables if user chooses not to customize
     set "input_folder=input"
     set "output_folder=output"
     set "output_suffix=_reeemixed"
@@ -50,7 +50,12 @@ endlocal
 exit
 
 :custom_variables
-set /p input_folder=Enter the input folder name/path: 
-set /p output_folder=Enter the output folder name/path: 
+set /p input_folder=Enter the input folder name/path (leave empty to use the default folder "input"): 
+set /p output_folder=Enter the output folder name/path (leave empty to use the default folder "output"): 
 set /p output_suffix=Enter the output file suffix (leave blank for none): 
+
+rem Check if input and output folder are empty, and if so, use the defaults
+if not defined input_folder set "input_folder=input"
+if not defined output_folder set "output_folder=output"
+
 goto main
