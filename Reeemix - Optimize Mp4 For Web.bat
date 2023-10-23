@@ -50,12 +50,21 @@ endlocal
 exit
 
 :custom_variables
-set /p input_folder=Enter the input folder name/path (leave empty to use the default folder "input"): 
-set /p output_folder=Enter the output folder name/path (leave empty to use the default folder "output"): 
+set /p input_folder=Enter the input folder name/path (leave empty to use the default folder "reeemix_input"): 
+set /p output_folder=Enter the output folder name/path (leave empty to use the default folder "reeemix_output"): 
 set /p output_suffix=Enter the output file suffix (leave blank for none): 
 
 rem Check if input and output folder are empty, and if so, use the defaults
 if not defined input_folder set "input_folder=reeemix_input"
 if not defined output_folder set "output_folder=reeemix_output"
+
+rem Check if the user-defined input folder exists, and if not, ask the user to create it
+if not exist "!input_folder!" (
+    echo.
+    echo The input folder "!input_folder!" does not exist. Please create it and place your video files there.
+    echo.
+    pause
+    exit /b
+)
 
 goto main
