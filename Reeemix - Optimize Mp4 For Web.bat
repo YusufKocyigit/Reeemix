@@ -4,7 +4,12 @@ setlocal enabledelayedexpansion
 rem Display software name
 echo.
 echo.
+
+        color 0D
+        
 echo Reeemix - Optimize Video Files for the Web
+
+        color 0F
 echo.
 echo.
 
@@ -14,7 +19,10 @@ echo.
 
 if /i "!customize_vars!"=="Y" (
     echo.
-    echo Setting custom variables
+    echo Setting custom variables..
+    color 0A
+    echo OK
+    color 0F
     echo.
     set /p input_folder="Enter the input folder name/path (leave empty to use the default folder reeemix_input): " 
     set /p output_folder="Enter the output folder name/path (leave empty to use the default folder reeemix_output): " 
@@ -22,13 +30,19 @@ if /i "!customize_vars!"=="Y" (
     echo.
     rem Check if input and output folder are empty, and if so, use the defaults
     if not defined input_folder ( 
-        echo Using the default input folder
+        echo Using the default input folder...
+        color 0A
+        echo OK
+        color 0F
         set "input_folder=reeemix_input"
         echo.
     )
     if not exist "!input_folder!" (
             mkdir "!input_folder!"
-            echo Creating the default input folder, as it doesn't exist
+            echo Creating the default input folder, as it doesn't exist...
+            color 0A
+            echo OK
+            color 0F
             echo Put your files inside the "!input_folder!" folder and click on enter
             echo.
             pause
@@ -36,13 +50,19 @@ if /i "!customize_vars!"=="Y" (
 
     if not defined output_folder (
         set "output_folder=reeemix_output"
-    	echo Using the default output folder
+    	echo Using the default output folder...
+        color 0A
+        echo OK
+        color 0F
         echo.
     )
 
     if not exist "!output_folder!" (
         mkdir "!output_folder!"
-        echo Creating the default output folder, as it doesn't exist
+        echo Creating the default output folder, as it doesn't exist...
+        color 0A
+        echo OK
+        color 0F
         echo.
     )
     
@@ -60,7 +80,10 @@ if /i "!customize_vars!"=="Y" (
     
     if not exist "!input_folder!" (
         mkdir "!input_folder!"
-        echo Creating the default input folder, as it doesn't exist
+        echo Creating the default input folder, as it doesn't exist...
+        color 0A
+        echo OK
+        color 0F
         echo Put your files inside the !input_folder! folder and click on enter
         echo.
         pause
@@ -69,7 +92,10 @@ if /i "!customize_vars!"=="Y" (
     
     if not exist "!output_folder!" (
         mkdir "!output_folder!"
-        echo Creating the default output folder, it doesn't exist
+        echo Creating the default output folder, it doesn't exist...
+        color 0A
+        echo OK
+        color 0F
         echo.
     )
 
@@ -92,14 +118,18 @@ for %%i in ("!input_folder!\*.*") do (
     if /i "!delete_afterreeemix!"=="Y" (
         del !input!
         echo.
+        color 0A
         echo reeemixed "!input!" to "!output_folder!\!filename!!output_suffix!!extension!" successfully ! 
         echo.
         del "!input!"
         echo deleted "!input!"
+        color 0F
         echo.
     ) else (
         echo.
+        color 0A
         echo reeemixed "!input!" to "!output_folder!\!filename!!output_suffix!!extension!" successfully ! 
+        color 0F
         echo.
     ) 
 
@@ -109,7 +139,9 @@ echo.
 echo.
 echo.
 echo.
+color 0D
 echo Thank you for using Reeemix!
+color 0F
 echo.
 echo.
 echo.
