@@ -1,5 +1,5 @@
 
-# Reeemix - Optimize Videos For Web Without Reencoding
+# Reeemix - Optimize Videos For The Web Without Reencoding Them
 
 Reeemix is a simple batch file that you put next to the folder containing your videos, 
 
